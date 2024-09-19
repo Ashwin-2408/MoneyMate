@@ -8,6 +8,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+        geistSans: ['var(--font-geist-sans)', 'sans-serif'],
+        geistMono: ['var(--font-geist-mono)', 'monospace'],
+        title: ['Holtwood One SC', 'serif']
+      },
+      
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
