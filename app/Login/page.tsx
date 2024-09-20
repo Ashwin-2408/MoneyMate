@@ -1,7 +1,7 @@
 import Image from 'next/image'
 export default function Login(){
     return(
-        <div className='h-screen w-screen flex justify-center bg-slate-600 items-center '>
+        <div className='h-screen w-screen flex justify-center bg-slate-600/100 items-center '>
             <div className='grid grid-cols-6 grid-rows-6 bg-[#e6ecf3] w-9/12 h-3/4 shadow-3xl rounded-lg'>
             <div className='text-black col-span-3 row-span-1 '>
                 <h1 className='font-title flex justify-center text-xl h-1/2 items-center pt-4'>Money Mate</h1>
