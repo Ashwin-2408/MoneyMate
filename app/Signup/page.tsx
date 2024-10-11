@@ -13,8 +13,7 @@ interface FormData {
   Password_check: string;
 }
 export default function Signup() {
-    const router=useRouter()
-  
+  const router = useRouter();
 
   const [formdata, setformdata] = useState<FormData>({
     Email: "",
@@ -37,11 +36,10 @@ export default function Signup() {
         "http://localhost:3001/Auth/signup",
         formdata
       );
-      
+
       alert(response.data.LOG);
-      if(response.data.Message==="Success"){
-        
-        router.push("/Login")
+      if (response.data.Message === "Success") {
+        router.push("/Login");
       }
     } catch (error: any) {
       if (error.response) {
@@ -131,7 +129,6 @@ export default function Signup() {
           />
         </div>
       </div>
-     
     </div>
   );
 }

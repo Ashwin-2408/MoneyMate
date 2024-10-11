@@ -1,11 +1,18 @@
 // Dashboard.tsx
-import React from 'react';
+"use client";
+import React from "react";
+
+import { useState } from "react";
+import { useEffect } from "react";
+
+
 
 const Dashboard = () => {
+  
   return (
     <div
       className="bg-black text-white min-h-screen p-8"
-      style={{ overflow: 'hidden' }} // Hide overflow to remove the scrollbar
+      style={{ overflow: "hidden" }} // Hide overflow to remove the scrollbar
     >
       {/* Overview Section */}
       <div className="mb-8">
@@ -41,7 +48,10 @@ const Dashboard = () => {
               <p>¥120 (71%)</p>
             </div>
             <div className="h-2 bg-[#0a8080a] rounded-full">
-              <div className="bg-green-500 h-full rounded-full" style={{ width: '71%' }}></div>
+              <div
+                className="bg-green-500 h-full rounded-full"
+                style={{ width: "71%" }}
+              ></div>
             </div>
           </div>
           {/* Salary */}
@@ -51,7 +61,10 @@ const Dashboard = () => {
               <p>¥50 (29%)</p>
             </div>
             <div className="h-2 bg-[#08080a] rounded-full">
-              <div className="bg-green-500 h-full rounded-full" style={{ width: '29%' }}></div>
+              <div
+                className="bg-green-500 h-full rounded-full"
+                style={{ width: "29%" }}
+              ></div>
             </div>
           </div>
         </div>
@@ -66,7 +79,10 @@ const Dashboard = () => {
               <p>¥600 (100%)</p>
             </div>
             <div className="h-2 bg-[#08080a] rounded-full">
-              <div className="bg-red-500 h-full rounded-full" style={{ width: '100%' }}></div>
+              <div
+                className="bg-red-500 h-full rounded-full"
+                style={{ width: "100%" }}
+              ></div>
             </div>
           </div>
         </div>
