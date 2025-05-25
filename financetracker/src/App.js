@@ -1,11 +1,16 @@
 
 import './App.css';
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './Pages/Login';
+import Dashboard from './Pages/Dashboard';
 function App() {
   return (
-   <div className="bg-primary text-white p-4">
-      <h1 className="text-xl font-bold">Tailwind should work now!</h1>
-    </div>
+   <Router>
+    <Routes>
+      <Route path='/' element={<Login/>}/>
+      <Route path='dashboard' element={<Dashboard/>}/>      
+    </Routes>
+   </Router>
   );
 }
 
