@@ -6,10 +6,13 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  getAdditionalUserInfo
+  getAdditionalUserInfo,
 } from "firebase/auth";
 
-function Signup() {
+function Signup({ togglesSignUp }) {
+  const handle_toggle_click =()=>{
+    togglesSignUp(false)
+  }
   function signupWithEmail() {
     setloading(true);
     if (password !== confirmpassword) {
@@ -85,6 +88,8 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
   const [loading, setloading] = useState(false);
+  
+ 
   return (
     <div className="flex flex-col md:ml-24 rounded-3xl p-4 bg-white h-full w-full max-w-md sm:w-full md:w3/4   shadow-lg font-inter">
       <div className="font-inter items-center justify-center pt-3">
@@ -154,6 +159,9 @@ function Signup() {
               </div>
             )}
           </button>
+          <p className="text-center mt-2">
+            Already signed up? <span className="text-[#0000EE] cursor-pointer underline" onClick={handle_toggle_click}>Sign In</span>
+          </p>
         </form>
       </div>
     </div>

@@ -1,8 +1,18 @@
 import React from 'react'
 import Header from '../Components/Header.js'
 import Signup from '../Components/Signup.js'
+import Signin from '../Components/Signin.js';
+
+import { useState } from 'react';
+
 
 function Login() {
+  const [signup,setsignup]=useState(true);
+  const toggle_signup = (toggle) =>{
+    setsignup(toggle);
+  }
+
+  
   return (
     <div className='flex flex-col min-h-screen'>
         <Header/>
@@ -13,11 +23,12 @@ function Login() {
                 <p>ho</p>
                 {/* <img src={home}/> */}
                 </div>
-                <div className="hidden md:block w-px bg-gray-400 flex-grow ml-4 "></div>
+                <div className="hidden md:block w-px bg-black flex-grow ml-4 "></div>
 
                 <div className='w-full md:w-1/2 flex-grow rounded-3xl p-5  '>
                 {/* This div contains the login signup form */}
-                <Signup/>
+                {signup ? <Signup togglesSignUp={toggle_signup}/> :<Signin/>}
+                
                 </div>
 
             </div>
