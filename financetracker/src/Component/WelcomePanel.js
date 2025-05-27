@@ -63,8 +63,8 @@ const WelcomePanel = () => {
         so you don’t have to think about it.
       </motion.p>
 
-      <div className="w-full max-w-4xl h-[350px] md:h-[300px] bg-white rounded-2xl shadow-xl  p-2 md:p-6">
-        <h2 className="text-md md:text-xl pt-1 font-semibold mb-4 text-black">Income vs Expense Overview</h2>
+      <div className="w-full max-w-4xl h-[330px] lg:h-[350px] bg-white rounded-2xl shadow-xl  p-2 md:p-6 items-center">
+        <h2 className="text-md md:text-xl pt-1 font-semibold mb-4 text-center md:text-left text-black">Income vs Expense Overview</h2>
 
         {isMobile ? (
           <ResponsiveContainer width="90%" height="90%">

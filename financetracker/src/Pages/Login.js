@@ -5,6 +5,7 @@ import Signup from "../Component/Signup.js"; // Updated import path
 import Signin from "../Component/Signin.js"; // Updated import path
 import WelcomePanel from "../Component/WelcomePanel.js"; // Updated import path
 import { useState } from "react";
+import Footer from "../Component/Footer.js";
 
 function Login() {
   const [signup, setsignup] = useState(true);
@@ -43,6 +44,7 @@ function Login() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 }
