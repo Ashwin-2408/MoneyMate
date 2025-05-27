@@ -31,7 +31,7 @@ function Signup({ togglesSignUp }) {
         toast.error(e.message);
       }
     } else {
-      toast.error("Doc exists!");
+      
     }
   }
   const handle_toggle_click = () => {
@@ -85,15 +85,10 @@ function Signup({ togglesSignUp }) {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
-        const { isNewUser } = getAdditionalUserInfo(result);
+       
         createdoc(user);
 
-        if (isNewUser) {
-          toast.success("User Created");
-          // You can also add the user to Firestore here if needed
-        } else {
-          toast.error("Already Signed Up");
-        }
+        
 
         // IdP data available using getAdditionalUserInfo(result)
         // ...
@@ -181,7 +176,7 @@ function Signup({ togglesSignUp }) {
                   alt="Google"
                   className="w-5 h-5 mr-1"
                 />
-                <span>Signup with Google</span>
+                <span>Sign In with Google</span>
               </div>
             )}
           </button>
