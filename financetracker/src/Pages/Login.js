@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 import Header from "../Component/Header.js"; // Updated import path
 import Signup from "../Component/Signup.js"; // Updated import path
 import Signin from "../Component/Signin.js"; // Updated import path
@@ -14,7 +14,7 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen pt-16">
       <Header />
       <div className="flex flex-col p-10  flex-1 bg-primary w-full  font-inter">
         <div className="flex flex-col lg:flex-row    w-full space-x-1 flex-1 ">

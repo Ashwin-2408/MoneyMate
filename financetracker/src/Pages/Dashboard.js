@@ -4,9 +4,13 @@ import { Card, Modal } from "antd";
 import IncomeIcon from "../assets/Income.svg";
 import BalanceIcon from "../assets/Balance.svg";
 import ExpenseIcon from "../assets/Expense.svg";
+import TransactionIcon from "../assets/Transaction.svg"
+import { motion } from "framer-motion";
+import Footer from "../Component/Footer";
 
 function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showicon,setshowicon]=useState(false);
   const [modalType, setModalType] = useState(""); // "income" | "expense" | "balance"
 
   const openModal = (type) => {
@@ -31,12 +35,12 @@ function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8fafc] font-inter">
-      <Header />
+    <div className="flex flex-col min-h-screen bg-gray-100 font-inter pt-16">
+      <Header className="fixed z-50 " />
       
       <div className="flex flex-col md:flex-row mt-5 md:space-x-6 justify-between px-24">
         <Card
-          className="flex flex-col p-3 bg-gray-100"
+          className="flex flex-col justify-between bg-gray-100"
           title="BALANCE"
           hoverable
           style={{ width: 360, height: 330 }}
@@ -85,7 +89,29 @@ function Dashboard() {
           </button>
         </Card>
       </div>
+      {showicon ? <div className="flex flex-row px-24">
+        <div className="h-full w-4/5">
+        <p>hi</p>
 
+        </div>
+        <div>
+          hola
+
+        </div>
+      </div> : <div className=" flex flex-col items-center justify-center mt-7 mx-24 p-5 shadow-md rounded-md bg-gray-100 mb-3">
+        <img src={TransactionIcon} alt="transaction Icon" className="h-[30%] w-[30%]"></img>
+        <motion.p
+        className="text-sm sm:text-base md:text-lg text-slate-600 text-center mb-8 sm:mb-10 max-w-2xl px-2 mt-5 ml-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 1 }}
+      >
+        You have no Transactions currently.
+      </motion.p>
+      </div> 
+
+} 
+        
       {/* Shared Modal */}
       <Modal
         title={
@@ -102,7 +128,9 @@ function Dashboard() {
       >
         {renderModalContent()}
       </Modal>
+      <Footer></Footer>
     </div>
+    
   );
 }
 
