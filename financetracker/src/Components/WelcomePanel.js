@@ -40,7 +40,7 @@ const WelcomePanel = () => {
       </motion.p>
 
       <div className="w-full  h-[350px] bg-white rounded-2xl shadow-xl p-6">
-        <h2 className="text-xl font-semibold mb-4 text-[#ff7bac]">Income vs Expense Overview</h2>
+        <h2 className="text-xl font-semibold mb-4 text-black">Income vs Expense Overview</h2>
         <ResponsiveContainer width="90%" height="90%">
           <LineChart data={dataWithBalance} margin={{ top: 20, right: 30, bottom: 0, left: 0 }}>
             <XAxis dataKey="month" />

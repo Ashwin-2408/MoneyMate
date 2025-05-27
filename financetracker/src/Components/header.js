@@ -18,6 +18,12 @@ function Header() {
         navigate("/Dashboard");
       }, 1000);
     }
+    else{
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+
+    }
   }, [user]);
   function Logout() {
     signOut(auth)
