@@ -4,6 +4,7 @@ import Signup from '../Components/Signup.js'
 import Signin from '../Components/Signin.js';
 
 import { useState } from 'react';
+import WelcomePanel from '../Components/WelcomePanel.js';
 
 
 function Login() {
@@ -18,12 +19,12 @@ function Login() {
         <Header/>
         <div className='flex flex-col p-10 flex-1 bg-primary w-full  '>
             <div className='flex flex-col md:flex-row    w-full space-x-1 flex-1 '>
-                <div className='hidden md:block w-full md:w-1/2 flex-grow rounded-3xl mr-8'>
+                <div className='hidden ml-[50px] md:block w-full md:w-1/2 flex-grow rounded-3xl mr-8'>
                 {/* This div contains information about the website(logo and details) */}
-                <p>ho</p>
+                <WelcomePanel></WelcomePanel>
                 {/* <img src={home}/> */}
                 </div>
-                <div className="hidden md:block w-px bg-black flex-grow ml-4 "></div>
+                {/* <div className="hidden md:block w-px bg-black flex-grow ml-4 "></div> */}
 
                 <div className='w-full md:w-1/2 flex-grow rounded-3xl p-5  '>
                 {/* This div contains the login signup form */}

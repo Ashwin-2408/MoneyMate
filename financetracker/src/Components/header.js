@@ -38,7 +38,7 @@ function Header() {
     <div className="flex justify-between font-inter p-4 sticky top-0 left-0 items-center bg-white shadow-md">
       <div className="flex items-center space-x-2 p-1 pl-2">
         <img src={logo} className="w-auto h-8" alt="logo" />
-        <h2 className="font-bold tracking-wide text-black">MoneyMate</h2>
+        <h2 className="font-bold tracking-wide  text-black">MoneyMate</h2>
       </div>
       {user && !loading && (
         <div className="text-black- p-1">
@@ -47,14 +47,14 @@ function Header() {
           </button>
         </div>
       )}
-      {/* {loading && (
+      {loading && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-white flex flex-col items-center justify-center z-50">
           <DotLoader size={50} color="#ff7bac" />
           <p className="mt-4 text-lg font-semibold text-[#ff7bac]">
             Logging in
           </p>
         </div>
-      )} */}
+      )}
     </div>
   );
 }
