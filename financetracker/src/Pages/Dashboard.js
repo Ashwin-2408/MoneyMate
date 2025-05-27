@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../Components/Header.js'
+import Header from '../components/Header.js'
 
 function Dashboard() {
   return (
