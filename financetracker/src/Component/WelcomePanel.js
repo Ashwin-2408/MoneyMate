@@ -1,5 +1,7 @@
+import React, { useState, useEffect } from 'react';
 import {
-  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
+  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, Legend
 } from 'recharts';
 import { motion } from 'framer-motion';
 
@@ -16,7 +18,29 @@ const dataWithBalance = sampleData.map(item => ({
   balance: item.income - item.expense,
 }));
 
+const pieData = [
+  { name: 'Income', value: sampleData.reduce((acc, cur) => acc + cur.income, 0) },
+  { name: 'Expense', value: sampleData.reduce((acc, cur) => acc + cur.expense, 0) },
+];
+
+const COLORS = ['#14b8a6', '#6366f1'];
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 640); // Tailwind 'sm' breakpoint
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return isMobile;
+}
+
 const WelcomePanel = () => {
+  const isMobile = useIsMobile();
+
   return (
     <div className="w-full px-4 sm:px-6 md:px-8 flex flex-col justify-center items-center font-inter">
       <motion.h1
@@ -41,44 +65,69 @@ const WelcomePanel = () => {
 
       <div className="w-full max-w-4xl h-[300px] sm:h-[350px] bg-white rounded-2xl shadow-xl p-4 sm:p-6">
         <h2 className="text-lg sm:text-xl font-semibold mb-4 text-black">Income vs Expense Overview</h2>
-        <ResponsiveContainer width="90%" height="90%">
-          <LineChart data={dataWithBalance} margin={{ top: 10, right: 20, bottom: 0, left: -10 }}>
-            <XAxis dataKey="month" />
-            <YAxis />
-            <Tooltip
-              contentStyle={{
-                borderRadius: 10,
-                backgroundColor: '#f9fafb',
-                border: '1px solid #e5e7eb'
-              }}
-            />
-            <Line
-              type="monotone"
-              dataKey="income"
-              stroke="#14b8a6"
-              strokeWidth={3}
-              dot={{ r: 4 }}
-              animationDuration={800}
-            />
-            <Line
-              type="monotone"
-              dataKey="expense"
-              stroke="#6366f1"
-              strokeWidth={3}
-              dot={{ r: 4 }}
-              animationDuration={800}
-            />
-            <Line
-              type="monotone"
-              dataKey="balance"
-              stroke="#8b5cf6"
-              strokeDasharray="5 5"
-              strokeWidth={2}
-              dot={{ r: 2 }}
-              animationDuration={800}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+
+        {isMobile ? (
+          <ResponsiveContainer width="90%" height="90%">
+            <PieChart>
+              <Pie
+                data={pieData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                innerRadius={50}  // <-- makes it a donut chart
+                outerRadius={80}
+                fill="#8884d8"
+                label
+              >
+                {pieData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                ))}
+              </Pie>
+              <Legend verticalAlign="bottom" height={36} />
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        ) : (
+          <ResponsiveContainer width="90%" height="90%">
+            <LineChart data={dataWithBalance} margin={{ top: 10, right: 20, bottom: 0, left: -10 }}>
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip
+                contentStyle={{
+                  borderRadius: 10,
+                  backgroundColor: '#f9fafb',
+                  border: '1px solid #e5e7eb',
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="income"
+                stroke="#14b8a6"
+                strokeWidth={3}
+                dot={{ r: 4 }}
+                animationDuration={800}
+              />
+              <Line
+                type="monotone"
+                dataKey="expense"
+                stroke="#6366f1"
+                strokeWidth={3}
+                dot={{ r: 4 }}
+                animationDuration={800}
+              />
+              <Line
+                type="monotone"
+                dataKey="balance"
+                stroke="#8b5cf6"
+                strokeDasharray="5 5"
+                strokeWidth={2}
+                dot={{ r: 2 }}
+                animationDuration={800}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </div>
     </div>
   );
