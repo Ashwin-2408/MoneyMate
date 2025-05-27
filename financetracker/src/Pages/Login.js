@@ -18,7 +18,7 @@ function Login() {
       <Header />
       <div className="flex flex-col p-10  flex-1 bg-primary w-full  font-inter">
         <div className="flex flex-col lg:flex-row    w-full space-x-1 flex-1 ">
-          <div className="   w-full md:w-1/2 flex-grow rounded-3xl mr-8 items-center">
+          <div className="   w-full md:w-1/2 flex-grow rounded-3xl  items-center">
             {/* This div contains information about the website(logo and details) */}
             <WelcomePanel></WelcomePanel>
             {/* <img src={home}/> */}
