@@ -1,7 +1,7 @@
 import React from 'react'
-import Header from '../Components/Header.js'
-import Signup from '../Components/Signup.js'
-import Signin from '../Components/Signin.js';
+import Header from '../Components/Header'
+import Signup from '../Components/Signup'
+import Signin from '../Components/Signin';
 
 import { useState } from 'react';
 import WelcomePanel from '../Components/WelcomePanel.js';
