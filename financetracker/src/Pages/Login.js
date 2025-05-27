@@ -34,7 +34,7 @@ function Login() {
             your budget and achieve your financial goals.
           </motion.p>
 
-          <div className="w-full md:w-1/2 flex-grow rounded-3xl p-5 items-center ">
+          <div className="w-full md:w-1/2 flex-grow rounded-3xl p-0 md:p-5 items-center ">
             {/* This div contains the login signup form */}
             {signup ? (
               <Signup togglesSignUp={toggle_signup} />
