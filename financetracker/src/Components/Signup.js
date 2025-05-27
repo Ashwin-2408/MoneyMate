@@ -22,7 +22,7 @@ function Signup({ togglesSignUp }) {
       try {
         await setDoc(userRef, {
           name: user.displayName ? user.displayName : name,
-          email,
+          email: user.email ? user.email : email,
           photoURL: user.photoURL ? user.photoURL : "",
           createdAt:serverTimestamp(),
         });
@@ -86,6 +86,7 @@ function Signup({ togglesSignUp }) {
         // The signed-in user info.
         const user = result.user;
         const { isNewUser } = getAdditionalUserInfo(result);
+        createdoc(user);
 
         if (isNewUser) {
           toast.success("User Created");
