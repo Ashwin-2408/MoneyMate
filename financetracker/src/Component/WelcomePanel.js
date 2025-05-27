@@ -63,7 +63,7 @@ const WelcomePanel = () => {
         so you don’t have to think about it.
       </motion.p>
 
-      <div className="w-full max-w-4xl h-[300px] sm:h-[350px] bg-white rounded-2xl shadow-xl p-4 sm:p-6">
+      <div className="w-full max-w-4xl h-[300px] sm:h-[380px] bg-white rounded-2xl shadow-xl p-4 sm:p-6">
         <h2 className="text-lg sm:text-xl font-semibold mb-4 text-black">Income vs Expense Overview</h2>
 
         {isMobile ? (

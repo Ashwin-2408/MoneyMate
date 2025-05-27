@@ -116,7 +116,7 @@ function Signup({ togglesSignUp }) {
   const [authLoading, setauthloading] = useState(false);
 
   return (
-    <div className="flex flex-col md:ml-24 rounded-3xl p-3 pt-2 bg-white h-full w-full max-w-md sm:w-full md:w3/4   shadow-lg font-inter">
+    <div className="flex flex-col md:ml-24 rounded-3xl p-3 pt-2 bg-white h-full w-full max-w-4xl sm:w-full md:w-full lg:w-3/4   shadow-lg font-inter">
       <div className="font-inter items-center justify-center pt-3">
         <h1 className="text-center font-semibold text-2xl mb-1">
           {" "}
