@@ -35,7 +35,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white font-inter pt-16 items-center md:items-stretch">
+    <div className="flex flex-col min-h-screen bg-white justify-center font-inter pt-16 items-center md:items-stretch">
       <Header />
 
       <div className="flex flex-col items-center justify-normal md:flex-row md:items-stretch md:justify-between gap-6 mt-5 px-4">
