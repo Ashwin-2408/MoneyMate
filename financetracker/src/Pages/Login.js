@@ -1,10 +1,10 @@
 import React from 'react'
-import Header from '../components/Header.js'
-import Signup from '../components/Signup.js'
-import Signin from '../components/Signin.js';
+import Header from '../Components/Header.js'
+import Signup from '../Components/Signup.js'
+import Signin from '../Components/Signin.js';
 
 import { useState } from 'react';
-import WelcomePanel from '../components/WelcomePanel.js';
+import WelcomePanel from '../Components/WelcomePanel.js';
 
 
 function Login() {
