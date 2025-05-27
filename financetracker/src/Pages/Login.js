@@ -1,10 +1,8 @@
 import React from 'react'
-import Header from '../Components/Header'
-import Signup from '../Components/Signup'
-import Signin from '../Components/Signin';
-
-import { useState } from 'react';
-import WelcomePanel from '../Components/WelcomePanel.js';
+import Header from '../components/Header'  // Updated import path
+import Signup from '../components/Signup'  // Updated import path
+import Signin from '../components/Signin'  // Updated import path
+import WelcomePanel from '../components/WelcomePanel.js'  // Updated import path
 
 
 function Login() {

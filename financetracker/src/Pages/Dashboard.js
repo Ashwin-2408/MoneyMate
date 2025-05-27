@@ -1,9 +1,8 @@
 import React from 'react'
-import Header from '../Components/Header'
+import Header from '../components/Header'  // Updated to lowercase 'components'
 
 function Dashboard() {
   return (
-    
     <div>
       <Header></Header>
     </div>
