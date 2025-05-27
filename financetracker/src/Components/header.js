@@ -6,7 +6,7 @@ import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
-import {DotLoader} from "react-spinners"
+import { DotLoader } from "react-spinners";
 
 function Header() {
   const [user, loading] = useAuthState(auth);
@@ -14,14 +14,17 @@ function Header() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!loading && user) {
-      navigate("/Dashboard");
+      setTimeout(() => {
+        navigate("/Dashboard");
+      }, 1000);
     }
-  }, [user, loading]);
+  }, [user]);
   function Logout() {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
         toast.success("User logged out");
+
         navigate("/");
       })
       .catch((error) => {
@@ -44,15 +47,14 @@ function Header() {
           </button>
         </div>
       )}
-      {loading && (
+      {/* {loading && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-white flex flex-col items-center justify-center z-50">
           <DotLoader size={50} color="#ff7bac" />
           <p className="mt-4 text-lg font-semibold text-[#ff7bac]">
             Logging in
           </p>
         </div>
-      )}
-
+      )} */}
     </div>
   );
 }

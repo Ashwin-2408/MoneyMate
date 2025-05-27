@@ -3,13 +3,15 @@ import Input from "./Input";
 import { toast } from "react-toastify";
 import { auth, provider } from "../firebase";
 import { db, doc, setDoc } from "../firebase";
-import { getDoc ,serverTimestamp} from "firebase/firestore";
+import { getDoc, serverTimestamp } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   getAdditionalUserInfo,
 } from "firebase/auth";
+import { DotLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 function Signup({ togglesSignUp }) {
   async function createdoc(user) {
@@ -24,14 +26,13 @@ function Signup({ togglesSignUp }) {
           name: user.displayName ? user.displayName : name,
           email: user.email ? user.email : email,
           photoURL: user.photoURL ? user.photoURL : "",
-          createdAt:serverTimestamp(),
+          createdAt: serverTimestamp(),
         });
         toast.success("doc created");
       } catch (e) {
         toast.error(e.message);
       }
     } else {
-      
     }
   }
   const handle_toggle_click = () => {
@@ -85,10 +86,12 @@ function Signup({ togglesSignUp }) {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
-       
-        createdoc(user);
+        setauthloading(true);
+        setTimeout(() => {
+          navigate("/dashboard"); // Change this to your target route
+        }, 1000);
 
-        
+        createdoc(user);
 
         // IdP data available using getAdditionalUserInfo(result)
         // ...
@@ -105,11 +108,13 @@ function Signup({ togglesSignUp }) {
         toast.error(errorMessage);
       });
   }
+  const navigate=useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
   const [loading, setloading] = useState(false);
+  const [authLoading, setauthloading] = useState(false);
 
   return (
     <div className="flex flex-col md:ml-24 rounded-3xl p-4 bg-white h-full w-full max-w-md sm:w-full md:w3/4   shadow-lg font-inter">
@@ -191,6 +196,14 @@ function Signup({ togglesSignUp }) {
           </p>
         </form>
       </div>
+      {authLoading && (
+        <div className="fixed top-0 left-0 w-screen h-screen bg-white flex flex-col items-center justify-center z-50">
+          <DotLoader size={50} color="#ff7bac" />
+          <p className="mt-4 text-lg font-semibold text-[#ff7bac]">
+            Logging in
+          </p>
+        </div>
+      )}
     </div>
   );
 }
