@@ -8,8 +8,6 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  GoogleAuthProvider,
-  getAdditionalUserInfo,
 } from "firebase/auth";
 
 function Signin({ togglesignin }) {
@@ -24,7 +22,7 @@ function Signin({ togglesignin }) {
         // ..
       })
       .catch((error) => {
-        const errorCode = error.code;
+        
         const errorMessage = error.message;
         toast.error(errorMessage)
         // ..
@@ -32,13 +30,13 @@ function Signin({ togglesignin }) {
   }
   function signupwithgoogle() {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(() => {
         // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
+        
+        
         // The signed-in user info.
-        const user = result.user;
-        const { isNewUser } = getAdditionalUserInfo(result);
+        
+        
 
   
         setauthloading(true);
@@ -51,12 +49,12 @@ function Signin({ togglesignin }) {
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
+        
         const errorMessage = error.message;
         // The email of the user's account used.
-        const email = error.customData.email;
+        
         // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
+      
         // ...
         toast.error(errorMessage);
       });
@@ -68,7 +66,7 @@ function Signin({ togglesignin }) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
+     
         toast.success("Signed in");
         setloading(false);
         setauthloading(true);
@@ -80,7 +78,7 @@ function Signin({ togglesignin }) {
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
+        
         const errorMessage = error.message;
         toast.error(errorMessage);
         setloading(false);

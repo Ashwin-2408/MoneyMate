@@ -7,8 +7,8 @@ import { getDoc, serverTimestamp } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
-  GoogleAuthProvider,
-  getAdditionalUserInfo,
+  
+  
 } from "firebase/auth";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
@@ -66,7 +66,7 @@ function Signup({ togglesSignUp }) {
           // ...
         })
         .catch((error) => {
-          const errorCode = error.code;
+          
           const errorMessage = error.message;
           toast.error(errorMessage);
           setloading(false);
@@ -82,8 +82,8 @@ function Signup({ togglesSignUp }) {
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
+        
+        
         // The signed-in user info.
         const user = result.user;
         setauthloading(true);
@@ -98,13 +98,12 @@ function Signup({ togglesSignUp }) {
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
+        
         const errorMessage = error.message;
         // The email of the user's account used.
-        const email = error.customData.email;
+   
         // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+        
         toast.error(errorMessage);
       });
   }

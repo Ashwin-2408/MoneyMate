@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
+
 import logo from "../assets/logo.png";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
@@ -10,10 +10,10 @@ import { DotLoader } from "react-spinners";
 
 function Header() {
   const [user, loading] = useAuthState(auth);
-  const [logout, setlogout] = useState(true);
+
   const navigate = useNavigate();
   useEffect(() => {
-    if (!loading && user) {
+    if (user) {
       setTimeout(() => {
         navigate("/Dashboard");
       }, 1000);
@@ -24,7 +24,7 @@ function Header() {
       }, 1000);
 
     }
-  }, [user]);
+  }, [user,navigate]);
   function Logout() {
     signOut(auth)
       .then(() => {
@@ -37,7 +37,7 @@ function Header() {
         // An error happened.
         toast.error(error.message);
       });
-    setlogout(true);
+    
   }
 
   return (
