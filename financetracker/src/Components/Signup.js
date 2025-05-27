@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Input from "./Input";
 import { toast } from "react-toastify";
 import { auth, provider } from "../firebase";
+import { db, doc, setDoc } from "../firebase";
+import { getDoc ,serverTimestamp} from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
@@ -10,9 +12,32 @@ import {
 } from "firebase/auth";
 
 function Signup({ togglesSignUp }) {
-  const handle_toggle_click =()=>{
-    togglesSignUp(false)
+  async function createdoc(user) {
+    if (!user) {
+      return;
+    }
+    const userRef = doc(db, "Users", user.uid);
+    const userData = await getDoc(userRef);
+    if (!userData.exists()) {
+      try {
+        await setDoc(userRef, {
+          name: user.displayName ? user.displayName : name,
+          email,
+          photoURL: user.photoURL ? user.photoURL : "",
+          createdAt:serverTimestamp(),
+        });
+        toast.success("doc created");
+      } catch (e) {
+        toast.error(e.message);
+      }
+    } else {
+      toast.error("Doc exists!");
+    }
   }
+  const handle_toggle_click = () => {
+    togglesSignUp(false);
+  };
+
   function signupWithEmail() {
     setloading(true);
     if (password !== confirmpassword) {
@@ -36,6 +61,7 @@ function Signup({ togglesSignUp }) {
           setEmail("");
           setPassword("");
           setConfirmpassword("");
+          createdoc(user);
           // ...
         })
         .catch((error) => {
@@ -65,7 +91,7 @@ function Signup({ togglesSignUp }) {
           toast.success("User Created");
           // You can also add the user to Firestore here if needed
         } else {
-          toast.success("Welcome back!");
+          toast.error("Already Signed Up");
         }
 
         // IdP data available using getAdditionalUserInfo(result)
@@ -88,8 +114,7 @@ function Signup({ togglesSignUp }) {
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
   const [loading, setloading] = useState(false);
-  
- 
+
   return (
     <div className="flex flex-col md:ml-24 rounded-3xl p-4 bg-white h-full w-full max-w-md sm:w-full md:w3/4   shadow-lg font-inter">
       <div className="font-inter items-center justify-center pt-3">
@@ -160,7 +185,13 @@ function Signup({ togglesSignUp }) {
             )}
           </button>
           <p className="text-center mt-2">
-            Already signed up? <span className="text-[#0000EE] cursor-pointer underline" onClick={handle_toggle_click}>Sign In</span>
+            Already signed up?{" "}
+            <span
+              className="text-[#0000EE] cursor-pointer underline"
+              onClick={handle_toggle_click}
+            >
+              Sign In
+            </span>
           </p>
         </form>
       </div>

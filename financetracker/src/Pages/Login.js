@@ -27,7 +27,7 @@ function Login() {
 
                 <div className='w-full md:w-1/2 flex-grow rounded-3xl p-5  '>
                 {/* This div contains the login signup form */}
-                {signup ? <Signup togglesSignUp={toggle_signup}/> :<Signin/>}
+                {signup ? <Signup togglesSignUp={toggle_signup}/> :<Signin togglesignin={toggle_signup}/>}
                 
                 </div>
 
