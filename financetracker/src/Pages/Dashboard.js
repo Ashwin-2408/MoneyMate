@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../components/Header'  // Updated to lowercase 'components'
+import Header from '../Component/Header'  // Updated to lowercase 'components'
 
 function Dashboard() {
   return (

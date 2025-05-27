@@ -1,8 +1,8 @@
 import React from 'react'
-import Header from '../components/Header'  // Updated import path
-import Signup from '../components/Signup'  // Updated import path
-import Signin from '../components/Signin'  // Updated import path
-import WelcomePanel from '../components/WelcomePanel.js'  // Updated import path
+import Header from '../Component/Header.js'  // Updated import path
+import Signup from '../Component/Signup.js'  // Updated import path
+import Signin from '../Component/Signin.js'  // Updated import path
+import WelcomePanel from '../Component/WelcomePanel.js'  // Updated import path
 
 
 function Login() {
