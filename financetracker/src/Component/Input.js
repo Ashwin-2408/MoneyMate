@@ -1,6 +1,6 @@
 import React from "react";
 
-function Input({ label, type = "text", placeholder,state,setState }) {
+function Input({  type = "text", placeholder,state,setState }) {
   return (
     <div className="flex flex-col mb-5">
       <input

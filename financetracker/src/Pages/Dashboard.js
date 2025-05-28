@@ -7,6 +7,7 @@ import ExpenseIcon from "../assets/Expense.svg";
 import TransactionIcon from "../assets/Transaction.svg";
 import { motion } from "framer-motion";
 import Footer from "../Component/Footer";
+import IncomeForm from "../Component/IncomeForm";
 
 function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,44 +25,47 @@ function Dashboard() {
   const renderModalContent = () => {
     switch (modalType) {
       case "income":
-        return <p>Add your income here...</p>;
+        return <IncomeForm />;
       case "expense":
         return <p>Add your expense here...</p>;
-      case "balance":
-        return <p>Resetting balance...</p>;
       default:
         return null;
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white justify-center font-inter pt-16 items-center md:items-stretch">
+    <div className="flex flex-col min-h-screen bg-gray-100 justify-center font-inter pt-16 items-center md:items-stretch">
       <Header />
 
-      <div className="flex flex-col items-center justify-normal md:flex-row md:items-stretch md:justify-between gap-6 mt-5 px-4">
+      <div className="flex flex-col items-center justify-normal md:flex-row mx-4 md:items-stretch md:justify-between gap-6 mt-5 px-4">
         <Card
-          className="flex flex-col justify-between bg-primary w-full max-w-[350px]"
+          className="flex flex-col justify-between bg-white w-full max-w-[370px]"
           title="BALANCE"
           hoverable
           style={{ height: 330 }}
         >
-          <img src={BalanceIcon} alt="Balance Icon" className="w-full h-[125px]" />
+          <img
+            src={BalanceIcon}
+            alt="Balance Icon"
+            className="w-full h-[125px]"
+          />
           <p className="text-xl m-2">₹</p>
-          <button
-            className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3"
-            onClick={() => openModal("balance")}
-          >
+          <button className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3">
             Reset Balance
           </button>
         </Card>
 
         <Card
-          className="flex flex-col justify-between bg-primary w-full max-w-[350px]"
+          className="flex flex-col justify-between bg-white w-full max-w-[370px]"
           title="INCOME"
           hoverable
           style={{ height: 330 }}
         >
-          <img src={IncomeIcon} alt="Income Icon" className="w-full h-[125px]" />
+          <img
+            src={IncomeIcon}
+            alt="Income Icon"
+            className="w-full h-[125px]"
+          />
           <p className="text-xl m-2">₹</p>
           <button
             className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3"
@@ -72,12 +76,16 @@ function Dashboard() {
         </Card>
 
         <Card
-          className="flex flex-col justify-between bg-primary w-full max-w-[350px]"
+          className="flex flex-col justify-between bg-white w-full max-w-[370px]"
           title="EXPENSE"
           hoverable
           style={{ height: 330 }}
         >
-          <img src={ExpenseIcon} alt="Expense Icon" className="w-full h-[125px]" />
+          <img
+            src={ExpenseIcon}
+            alt="Expense Icon"
+            className="w-full h-[125px]"
+          />
           <p className="text-xl m-2">₹</p>
           <button
             className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3"
@@ -96,7 +104,7 @@ function Dashboard() {
           <div className="w-full">hola</div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center mt-7 mx-4 p-5 shadow-md rounded-md bg-primary mb-3">
+        <div className="flex flex-col items-center justify-center mt-7 mx-4 p-5 shadow-md rounded-md bg-white mb-3">
           <img
             src={TransactionIcon}
             alt="transaction Icon"
@@ -115,14 +123,12 @@ function Dashboard() {
 
       <Modal
         title={
-          modalType === "income"
-            ? "Add Income"
-            : modalType === "expense"
-            ? "Add Expense"
-            : "Reset Balance"
+          <span style={{ color: "#ff7bac" }}>
+            {modalType === "income" ? "Add Income" : "Add Expense"}
+          </span>
         }
         open={isModalOpen}
-        onOk={handleOk}
+        footer={null}
         onCancel={handleCancel}
         closable
       >
