@@ -8,6 +8,7 @@ import TransactionIcon from "../assets/Transaction.svg";
 import { motion } from "framer-motion";
 import Footer from "../Component/Footer";
 import IncomeForm from "../Component/IncomeForm";
+import ExpenseForm from "../Component/ExpenseForm";
 
 function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,7 @@ function Dashboard() {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => setIsModalOpen(false);
+
   const handleCancel = () => setIsModalOpen(false);
 
   const renderModalContent = () => {
@@ -27,7 +28,7 @@ function Dashboard() {
       case "income":
         return <IncomeForm />;
       case "expense":
-        return <p>Add your expense here...</p>;
+        return <ExpenseForm/>;
       default:
         return null;
     }
