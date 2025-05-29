@@ -24,8 +24,8 @@ function Dashboard() {
   const [showexpense, setshowexpense] = useState(false);
   const [Transactions, setTransactions] = useState([]);
   const [expensesByTag, setExpensesByTag] = useState([]);
-  const COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
-
+  const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
+  
   useEffect(() => {
     if (!user || !user.uid) {
       setTransactions([]); // Clear if no user
@@ -118,10 +118,10 @@ function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 justify-center font-inter pt-16 p-5 items-center md:items-stretch">
+    <div className="flex flex-col min-h-screen overflow-x-hidden w-full bg-gray-100 justify-center font-inter pt-16  items-center md:items-stretch">
       <Header />
 
-      <div className="flex flex-col items-center justify-normal md:flex-row mx-2 md:items-stretch md:justify-between gap-6 mt-5 px-4 mb-5 md:mb-0">
+      <div className="flex flex-col items-center p-4 justify-normal md:flex-row mx-2 md:items-stretch md:justify-between gap-6 mt-5 px-4 md:px-10 mb-5 md:mb-0">
         <Card
           className="flex flex-col justify-between bg-white w-full max-w-[380px]"
           title="BALANCE"
@@ -181,7 +181,7 @@ function Dashboard() {
       </div>
 
       {showicon ? (
-        <div className="flex flex-col-reverse w-full md:space-y-0 gap-6 items-center h-96 justify-normal md:flex-row mx-4 md:items-stretch md:justify-between mt-16 md:mt-8 px-4 mb-4">
+        <div className="flex  p-4 flex-col-reverse w-full md:space-y-0 gap-6 items-center h-96 justify-normal md:flex-row mx-4 md:items-stretch md:justify-between mt-16 md:mt-8 px-4 mb-4">
           {/* Left Section */}
           <div className="w-full flex flex-col md:w-[70%] bg-white rounded-md p-4 mx-4">
             <h1>Financial Statistics</h1>
@@ -196,9 +196,10 @@ function Dashboard() {
                 hoverable
                 style={{ height: 370 }}
               >
-                <PieChart width={300} height={250}>
+                <PieChart width={325} height={275}>
                   <Pie
                     
+                    className="outline-none focus:outline-none"
                     data={expensesByTag}
                     cx="50%"
                     cy="50%"
