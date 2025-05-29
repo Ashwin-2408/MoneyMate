@@ -16,7 +16,7 @@ function Login() {
   return (
     <div className="flex flex-col min-h-screen pt-20 bg-primary">
       <Header />
-      <div className="flex flex-col md:p-10 p-0  flex-1 bg-primary w-full  font-inter">
+      <div className="flex flex-col md:p-10 p-4  flex-1 bg-primary w-full  font-inter mb-4">
         <div className="flex flex-col lg:flex-row    w-full space-x-1 flex-1 ">
           <div className="   w-full md:w-1/2 flex-grow rounded-3xl  items-center">
             {/* This div contains information about the website(logo and details) */}
