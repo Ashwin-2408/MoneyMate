@@ -14,8 +14,16 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
 function Dashboard() {
+  const data = [
+    { name: "Group A", value: 400 },
+    { name: "Group B", value: 300 },
+    { name: "Group C", value: 300 },
+    { name: "Group D", value: 200 },
+  ];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   const [user] = useAuthState(auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showicon, setshowicon] = useState(false);
@@ -39,7 +47,7 @@ function Dashboard() {
         let expenseFound = false;
         snapshot.forEach((doc) => {
           const data = doc.data();
-          if (data.type === "expense") {
+          if (data.type === "Expense") {
             expenseFound = true;
           }
         });
@@ -71,10 +79,10 @@ function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 justify-center font-inter pt-16 p-10 items-center md:items-stretch">
+    <div className="flex flex-col min-h-screen bg-gray-100 justify-center font-inter pt-16 p-5 items-center md:items-stretch">
       <Header />
 
-      <div className="flex flex-col items-center justify-normal md:flex-row mx-4 md:items-stretch md:justify-between gap-6 mt-5 px-4">
+      <div className="flex flex-col items-center justify-normal md:flex-row mx-4 md:items-stretch md:justify-between gap-6 mt-5 px-4 mb-5 md:mb-0">
         <Card
           className="flex flex-col justify-between bg-white w-full max-w-[380px]"
           title="BALANCE"
@@ -134,54 +142,64 @@ function Dashboard() {
       </div>
 
       {showicon ? (
-        <div className="flex flex-col-reverse w-full items-center justify-normal md:flex-row mx-4 md:items-stretch md:justify-between  mt-8 px-4">
+        <div className="flex flex-col-reverse w-full md:space-y-0 gap-6 items-center h-96 justify-normal md:flex-row mx-4 md:items-stretch md:justify-between mt-16 md:mt-8 px-4">
           {/* Left Section */}
-          <div className="w-full flex flex-col md:w-[70%] bg-white rounded-md p-4">
+          <div className="w-full flex flex-col md:w-[70%] bg-white rounded-md p-4 mx-4">
             <h1>Financial Statistics</h1>
-            
           </div>
 
           {/* Right Section */}
           {showexpense ? (
-            <div className="flex mx-4 px-4 w-full md:w-[30%]">
+            <div className="flex mx-4 mt-10  md:mt-0 w-full md:w-[30%] justify-center items-center">
               <Card
-                className="flex flex-col justify-between bg-white w-full max-w-[380px] flex-grow"
+                className="flex flex-col  bg-white w-full max-w-[380px] flex-grow justify-center items-center"
                 title="Your Spending"
                 hoverable
-                style={{ height: 330 }}
+                style={{ height: 370 }}
               >
-                <img
-                  src={IncomeIcon}
-                  alt="Income Icon"
-                  className="w-full h-[125px] "
-                />
-                <p className="text-xl m-2">₹</p>
-                <button
-                  className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3"
-                  onClick={() => openModal("income")}
+                <PieChart
+                  width={250}
+                  height={250}
+                
                 >
-                  Add Income
-                </button>
+                  <Pie
+                   
+                    data={data}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={50}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    paddingAngle={5}
+                    dataKey="value"
+                    label="hi"
+                  >
+                    {data.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                  
+                </PieChart>
               </Card>
-              </div>
-
+            </div>
           ) : (
-              <div className="flex mx-4 px-4 w-full md:w-[30%] justify-center items-center">
+            <div className="flex mx-4 px-4 w-full md:w-[30%] justify-center items-center">
               <Card
                 className="flex flex-col  justify-center items-center bg-white w-full max-w-[380px] flex-grow text-center"
                 title="You haven't spent anything yet"
                 hoverable
-                style={{ height: 330 }}
+                style={{ height: 350 }}
               >
                 <img
                   src={PieIcon}
                   alt="Income Icon"
                   className="w-full h-[190px] "
                 />
-               
               </Card>
-              </div>
-            
+            </div>
           )}
         </div>
       ) : (
