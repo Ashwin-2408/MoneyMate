@@ -82,7 +82,7 @@ function Dashboard() {
     <div className="flex flex-col min-h-screen bg-gray-100 justify-center font-inter pt-16 p-5 items-center md:items-stretch">
       <Header />
 
-      <div className="flex flex-col items-center justify-normal md:flex-row mx-4 md:items-stretch md:justify-between gap-6 mt-5 px-4 mb-5 md:mb-0">
+      <div className="flex flex-col items-center justify-normal md:flex-row mx-2 md:items-stretch md:justify-between gap-6 mt-5 px-4 mb-5 md:mb-0">
         <Card
           className="flex flex-col justify-between bg-white w-full max-w-[380px]"
           title="BALANCE"
