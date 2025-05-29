@@ -26,7 +26,7 @@ function Dashboard() {
   const renderModalContent = () => {
     switch (modalType) {
       case "income":
-        return <IncomeForm />;
+        return <IncomeForm/>;
       case "expense":
         return <ExpenseForm/>;
       default:
