@@ -14,25 +14,64 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 function Dashboard() {
-  const data = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-    { name: "Group D", value: 200 },
-  ];
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showicon, setshowicon] = useState(false);
   const [modalType, setModalType] = useState("");
   const [showexpense, setshowexpense] = useState(false);
-  async function render_transaction() {
-    const transactionref = collection(db, "Users", user.uid, "Transactions");
-    const transactiondata = await getDocs(transactionref);
-  }
+  const [Transactions, setTransactions] = useState([]);
+  const [expensesByTag, setExpensesByTag] = useState([]);
+  const COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
+
+  useEffect(() => {
+    if (!user || !user.uid) {
+      setTransactions([]); // Clear if no user
+      return;
+    }
+
+    const transactionRef = collection(db, "Users", user.uid, "Transactions");
+
+    const unsubscribe = onSnapshot(
+      transactionRef,
+      (snapshot) => {
+        const transactionsArray = snapshot.docs.map((doc) => {
+          const { type, Amount, Date, Tag, Title } = doc.data();
+          return { id: doc.id, type, Amount, Tag, Title, Date };
+        });
+        setTransactions(transactionsArray);
+        const expenses = transactionsArray.filter(
+          (tx) => tx.type === "Expense"
+        );
+        console.log(transactionsArray);
+
+        const expenseByTagObj = expenses.reduce((acc, curr) => {
+          const type = curr.Tag || "Unknown";
+          const value = Number(curr.Amount) || 0;
+          acc[type] = (acc[type] || 0) + value;
+          return acc;
+        }, {});
+
+        const expenseByTagArray = Object.entries(expenseByTagObj).map(
+          ([type, value]) => ({
+            type,
+            value,
+          })
+        );
+        console.log(expenseByTagArray);
+        setExpensesByTag(expenseByTagArray);
+      },
+      (error) => {
+        console.error("Error fetching transactions: ", error);
+        setTransactions([]);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [user, db]);
+
   useEffect(() => {
     if (!user) {
       setshowicon(false);
@@ -142,7 +181,7 @@ function Dashboard() {
       </div>
 
       {showicon ? (
-        <div className="flex flex-col-reverse w-full md:space-y-0 gap-6 items-center h-96 justify-normal md:flex-row mx-4 md:items-stretch md:justify-between mt-16 md:mt-8 px-4">
+        <div className="flex flex-col-reverse w-full md:space-y-0 gap-6 items-center h-96 justify-normal md:flex-row mx-4 md:items-stretch md:justify-between mt-16 md:mt-8 px-4 mb-4">
           {/* Left Section */}
           <div className="w-full flex flex-col md:w-[70%] bg-white rounded-md p-4 mx-4">
             <h1>Financial Statistics</h1>
@@ -152,36 +191,44 @@ function Dashboard() {
           {showexpense ? (
             <div className="flex mx-4 mt-10  md:mt-0 w-full md:w-[30%] justify-center items-center">
               <Card
-                className="flex flex-col  bg-white w-full max-w-[380px] flex-grow justify-center items-center"
-                title="Your Spending"
+                className="flex flex-col  bg-white w-full max-w-[380px] flex-grow items-center"
+                title="YOUR SPENDINGS"
                 hoverable
                 style={{ height: 370 }}
               >
-                <PieChart
-                  width={250}
-                  height={250}
-                
-                >
+                <PieChart width={300} height={250}>
                   <Pie
-                   
-                    data={data}
+                    
+                    data={expensesByTag}
                     cx="50%"
                     cy="50%"
-                    innerRadius={50}
+                    innerRadius={40}
                     outerRadius={80}
                     fill="#8884d8"
+                    label={({ value }) => ` ₹${value}`}
                     paddingAngle={5}
                     dataKey="value"
-                    label="hi"
+                    nameKey="type"
                   >
-                    {data.map((entry, index) => (
+                    {expensesByTag.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
                       />
                     ))}
                   </Pie>
-                  
+                  <Tooltip
+                    formatter={(value, name) => [`₹${value}`, name]}
+                    contentStyle={{
+                      backgroundColor: "#f0f0f0",
+                      borderRadius: "8px",
+                    }}
+                  />
+                  <Legend
+                    formatter={(value) => (
+                      <span style={{ color: "#333" }}>{value}</span>
+                    )}
+                  />
                 </PieChart>
               </Card>
             </div>
