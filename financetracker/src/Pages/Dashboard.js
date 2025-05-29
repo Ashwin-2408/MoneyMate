@@ -1,46 +1,82 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../Component/Header";
 import { Card, Modal } from "antd";
 import IncomeIcon from "../assets/Income.svg";
 import BalanceIcon from "../assets/Balance.svg";
 import ExpenseIcon from "../assets/Expense.svg";
+import PieIcon from "../assets/pie.svg";
 import TransactionIcon from "../assets/Transaction.svg";
 import { motion } from "framer-motion";
 import Footer from "../Component/Footer";
 import IncomeForm from "../Component/IncomeForm";
 import ExpenseForm from "../Component/ExpenseForm";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
 
 function Dashboard() {
+  const [user] = useAuthState(auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showicon, setshowicon] = useState(false);
   const [modalType, setModalType] = useState("");
+  const [showexpense, setshowexpense] = useState(false);
+  async function render_transaction() {
+    const transactionref = collection(db, "Users", user.uid, "Transactions");
+    const transactiondata = await getDocs(transactionref);
+  }
+  useEffect(() => {
+    if (!user) {
+      setshowicon(false);
+      return;
+    }
+
+    const transactionRef = collection(db, "Users", user.uid, "Transactions");
+
+    const unsubscribe = onSnapshot(transactionRef, (snapshot) => {
+      if (!snapshot.empty) {
+        setshowicon(true);
+        let expenseFound = false;
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data.type === "expense") {
+            expenseFound = true;
+          }
+        });
+        setshowexpense(expenseFound);
+      } else {
+        setshowicon(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [user]);
 
   const openModal = (type) => {
     setModalType(type);
     setIsModalOpen(true);
   };
 
-
   const handleCancel = () => setIsModalOpen(false);
 
   const renderModalContent = () => {
     switch (modalType) {
       case "income":
-        return <IncomeForm/>;
+        return <IncomeForm />;
       case "expense":
-        return <ExpenseForm/>;
+        return <ExpenseForm />;
       default:
         return null;
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 justify-center font-inter pt-16 items-center md:items-stretch">
+    <div className="flex flex-col min-h-screen bg-gray-100 justify-center font-inter pt-16 p-10 items-center md:items-stretch">
       <Header />
 
       <div className="flex flex-col items-center justify-normal md:flex-row mx-4 md:items-stretch md:justify-between gap-6 mt-5 px-4">
         <Card
-          className="flex flex-col justify-between bg-white w-full max-w-[370px]"
+          className="flex flex-col justify-between bg-white w-full max-w-[380px]"
           title="BALANCE"
           hoverable
           style={{ height: 330 }}
@@ -57,7 +93,7 @@ function Dashboard() {
         </Card>
 
         <Card
-          className="flex flex-col justify-between bg-white w-full max-w-[370px]"
+          className="flex flex-col justify-between bg-white w-full max-w-[380px]"
           title="INCOME"
           hoverable
           style={{ height: 330 }}
@@ -77,7 +113,7 @@ function Dashboard() {
         </Card>
 
         <Card
-          className="flex flex-col justify-between bg-white w-full max-w-[370px]"
+          className="flex flex-col justify-between bg-white w-full max-w-[380px]"
           title="EXPENSE"
           hoverable
           style={{ height: 330 }}
@@ -98,11 +134,55 @@ function Dashboard() {
       </div>
 
       {showicon ? (
-        <div className="flex flex-col sm:flex-row gap-6 px-4 mt-6">
-          <div className="w-full sm:w-4/5">
-            <p>hi</p>
+        <div className="flex flex-col-reverse w-full items-center justify-normal md:flex-row mx-4 md:items-stretch md:justify-between  mt-8 px-4">
+          {/* Left Section */}
+          <div className="w-full flex flex-col md:w-[70%] bg-white rounded-md p-4">
+            <h1>Financial Statistics</h1>
+            
           </div>
-          <div className="w-full">hola</div>
+
+          {/* Right Section */}
+          {showexpense ? (
+            <div className="flex mx-4 px-4 w-full md:w-[30%]">
+              <Card
+                className="flex flex-col justify-between bg-white w-full max-w-[380px] flex-grow"
+                title="Your Spending"
+                hoverable
+                style={{ height: 330 }}
+              >
+                <img
+                  src={IncomeIcon}
+                  alt="Income Icon"
+                  className="w-full h-[125px] "
+                />
+                <p className="text-xl m-2">₹</p>
+                <button
+                  className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3"
+                  onClick={() => openModal("income")}
+                >
+                  Add Income
+                </button>
+              </Card>
+              </div>
+
+          ) : (
+              <div className="flex mx-4 px-4 w-full md:w-[30%] justify-center items-center">
+              <Card
+                className="flex flex-col  justify-center items-center bg-white w-full max-w-[380px] flex-grow text-center"
+                title="You haven't spent anything yet"
+                hoverable
+                style={{ height: 330 }}
+              >
+                <img
+                  src={PieIcon}
+                  alt="Income Icon"
+                  className="w-full h-[190px] "
+                />
+               
+              </Card>
+              </div>
+            
+          )}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center mt-7 mx-4 p-5 shadow-md rounded-md bg-white mb-3">

@@ -87,10 +87,12 @@ function IncomeForm() {
         </select>
 
         <Input
+         className="w-full"
           placeholder="Date"
           type="Date"
           state={date}
           setState={setdate}
+          
         ></Input>
         <button
           onClick={add_transaction}
