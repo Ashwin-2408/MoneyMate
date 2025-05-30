@@ -34,6 +34,57 @@ function Dashboard() {
   const [Transactions, setTransactions] = useState([]);
   const [expensesByTag, setExpensesByTag] = useState([]);
   const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
+  const sampleTableData = [
+    {
+      key: "1",
+      Title: "Salary",
+      type: "Income",
+      Amount: 50000,
+      Date: "2025-05-01",
+    },
+    {
+      key: "2",
+      Title: "Freelancing",
+      type: "Income",
+      Amount: 12000,
+      Date: "2025-05-10",
+    },
+    {
+      key: "3",
+      Title: "Groceries",
+      type: "Expense",
+      Amount: 4500,
+      Date: "2025-05-12",
+    },
+    {
+      key: "4",
+      Title: "Electricity Bill",
+      type: "Expense",
+      Amount: 1800,
+      Date: "2025-05-15",
+    },
+    {
+      key: "5",
+      Title: "Movie Night",
+      type: "Expense",
+      Amount: 700,
+      Date: "2025-05-18",
+    },
+    {
+      key: "6",
+      Title: "Coffee",
+      type: "Expense",
+      Amount: 300,
+      Date: "2025-05-20",
+    },
+    {
+      key: "7",
+      Title: "Internet Bill",
+      type: "Expense",
+      Amount: 1000,
+      Date: "2025-05-22",
+    },
+  ];
 
   const columns = [
     {
@@ -297,7 +348,7 @@ function Dashboard() {
 
           {/* Right Section */}
           {showexpense ? (
-            <div className="flex mx-4 mt-2  md:mt-0 w-full md:w-[30%] justify-center items-center">
+            <div className="flex mx-4 mt-2 min-h-[300px] md:min-h-[300px]  md:mt-0 w-full md:w-[30%] justify-center items-center">
               <Card
                 className="flex flex-col  bg-white w-full max-w-[380px] flex-grow items-center"
                 title="YOUR SPENDINGS"
@@ -376,7 +427,12 @@ function Dashboard() {
       )}
       {showicon ? (
         <div className="p-4 w-full">
-          <Table columns={columns}  scroll={{ x: '100%' }}  />
+          <Table
+            columns={columns}
+            dataSource={sampleTableData}
+            pagination={{ pageSize: 5 }}
+            scroll={{ x: "100%" }}
+          />
         </div>
       ) : (
         <></>
