@@ -12,12 +12,20 @@ import IncomeForm from "../Component/IncomeForm";
 import ExpenseForm from "../Component/ExpenseForm";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 
 function Dashboard() {
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showicon, setshowicon] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -25,7 +33,52 @@ function Dashboard() {
   const [Transactions, setTransactions] = useState([]);
   const [expensesByTag, setExpensesByTag] = useState([]);
   const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
-  
+
+  const data = [
+    {
+      name: "Page A",
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
+    },
+    {
+      name: "Page B",
+      uv: 3000,
+      pv: 1398,
+      amt: 2210,
+    },
+    {
+      name: "Page C",
+      uv: 2000,
+      pv: 9800,
+      amt: 2290,
+    },
+    {
+      name: "Page D",
+      uv: 2780,
+      pv: 3908,
+      amt: 2000,
+    },
+    {
+      name: "Page E",
+      uv: 1890,
+      pv: 4800,
+      amt: 2181,
+    },
+    {
+      name: "Page F",
+      uv: 2390,
+      pv: 3800,
+      amt: 2500,
+    },
+    {
+      name: "Page G",
+      uv: 3490,
+      pv: 4300,
+      amt: 2100,
+    },
+  ];
+
   useEffect(() => {
     if (!user || !user.uid) {
       setTransactions([]); // Clear if no user
@@ -70,7 +123,7 @@ function Dashboard() {
     );
 
     return () => unsubscribe();
-  }, [user, db]);
+  }, [user]);
 
   useEffect(() => {
     if (!user) {
@@ -183,8 +236,37 @@ function Dashboard() {
       {showicon ? (
         <div className="flex  p-4 flex-col-reverse w-full md:space-y-0 gap-6 items-center h-96 justify-normal md:flex-row mx-4 md:items-stretch md:justify-between mt-16 md:mt-8 px-4 mb-4">
           {/* Left Section */}
-          <div className="w-full flex flex-col md:w-[70%] bg-white rounded-md p-4 mx-4">
-            <h1>Financial Statistics</h1>
+          <div
+            className="w-full min-h-[400px] md:min-h-[300px] md:h-full flex flex-col md:w-[70%] bg-white rounded-lg p-4 mx-4  hover:shadow-2xl transition-all duration-300
+          "
+          >
+            <h1 className="font-inter text-center font-extrabold text-xl mb-1">Financial Statistics</h1>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                width={500}
+                height={300}
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="pv"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                />
+                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
 
           {/* Right Section */}
@@ -198,7 +280,6 @@ function Dashboard() {
               >
                 <PieChart width={325} height={275}>
                   <Pie
-                    
                     className="outline-none focus:outline-none"
                     data={expensesByTag}
                     cx="50%"
