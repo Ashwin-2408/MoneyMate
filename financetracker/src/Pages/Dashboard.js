@@ -237,10 +237,10 @@ function Dashboard() {
         <div className="flex  p-4 flex-col-reverse w-full md:space-y-0 gap-6 items-center h-96 justify-normal md:flex-row mx-4 md:items-stretch md:justify-between mt-16 md:mt-8 px-4 mb-4">
           {/* Left Section */}
           <div
-            className="w-full min-h-[400px] md:min-h-[300px] md:h-full flex flex-col md:w-[70%] bg-white rounded-lg p-4 mx-4  hover:shadow-2xl transition-all duration-300
+            className="w-full min-h-[430px] md:min-h-[300px] md:h-full flex flex-col md:w-[70%] bg-white rounded-lg p-0 md:p-4 mx-4  hover:shadow-2xl transition-all duration-300
           "
           >
-            <h1 className="font-inter text-center font-extrabold text-xl mb-1">Financial Statistics</h1>
+            <h1 className="font-inter text-center font-extrabold text-xl mb-1 m-2 md:m-0">Financial Statistics</h1>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 width={500}
