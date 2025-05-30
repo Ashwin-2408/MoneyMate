@@ -7,6 +7,7 @@ import ExpenseIcon from "../assets/Expense.svg";
 import PieIcon from "../assets/pie.svg";
 import TransactionIcon from "../assets/Transaction.svg";
 import { motion } from "framer-motion";
+import { Table } from "antd";
 import Footer from "../Component/Footer";
 import IncomeForm from "../Component/IncomeForm";
 import ExpenseForm from "../Component/ExpenseForm";
@@ -33,6 +34,29 @@ function Dashboard() {
   const [Transactions, setTransactions] = useState([]);
   const [expensesByTag, setExpensesByTag] = useState([]);
   const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
+
+  const columns = [
+    {
+      title: "Title",
+      dataIndex: "Title",
+      key: "Title",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
+    },
+    {
+      title: "Amount",
+      dataIndex: "Amount",
+      key: "amount",
+    },
+    {
+      title: "Date",
+      dataIndex: "Date",
+      key: "Date",
+    },
+  ];
 
   const data = [
     {
@@ -174,7 +198,7 @@ function Dashboard() {
     <div className="flex flex-col min-h-screen overflow-x-hidden w-full bg-gray-100 justify-center font-inter pt-16  items-center md:items-stretch">
       <Header />
 
-      <div className="flex flex-col items-center p-4 justify-normal md:flex-row mx-2 md:items-stretch md:justify-between gap-6 mt-5 px-4 md:px-10 mb-5 md:mb-0">
+      <div className="flex flex-col items-center p-4 justify-normal md:flex-row mx-2 md:items-stretch md:justify-between gap-6 mt-5 px-4 md:px-10 mb-2 md:mb-0">
         <Card
           className="flex flex-col justify-between bg-white w-full max-w-[380px]"
           title="BALANCE"
@@ -234,14 +258,16 @@ function Dashboard() {
       </div>
 
       {showicon ? (
-        <div className="flex  p-4 flex-col-reverse w-full md:space-y-0 gap-6 items-center h-96 justify-normal md:flex-row mx-4 md:items-stretch md:justify-between mt-16 md:mt-8 px-4 mb-4">
+        <div className="flex  p-4 flex-col-reverse w-full md:space-y-0 gap-6 items-center  justify-normal md:flex-row mx-4 md:items-stretch md:justify-between mt-0 md:mt-8 px-4 mb-0">
           {/* Left Section */}
           <div
-            className="w-full min-h-[430px] md:min-h-[300px] md:h-full flex flex-col md:w-[70%] bg-white rounded-lg p-0 md:p-4 mx-4  hover:shadow-2xl transition-all duration-300
+            className="w-full min-h-[400px] md:min-h-[300px] md:h-full flex flex-col md:w-[70%] bg-white rounded-lg p-0 md:p-4 mx-4  hover:shadow-2xl transition-all duration-300
           "
           >
-            <h1 className="font-inter text-center font-extrabold text-xl mb-1 m-2 md:m-0">Financial Statistics</h1>
-            <ResponsiveContainer width="100%" height="100%">
+            <h1 className="font-inter text-center font-extrabold text-xl mb-1 m-2 md:m-0">
+              Financial Statistics
+            </h1>
+            <ResponsiveContainer width="100%" height={350}>
               <LineChart
                 width={500}
                 height={300}
@@ -271,7 +297,7 @@ function Dashboard() {
 
           {/* Right Section */}
           {showexpense ? (
-            <div className="flex mx-4 mt-10  md:mt-0 w-full md:w-[30%] justify-center items-center">
+            <div className="flex mx-4 mt-2  md:mt-0 w-full md:w-[30%] justify-center items-center">
               <Card
                 className="flex flex-col  bg-white w-full max-w-[380px] flex-grow items-center"
                 title="YOUR SPENDINGS"
@@ -347,6 +373,13 @@ function Dashboard() {
             You have no Transactions currently.
           </motion.p>
         </div>
+      )}
+      {showicon ? (
+        <div className="p-4 w-full">
+          <Table columns={columns}  scroll={{ x: '100%' }}  />
+        </div>
+      ) : (
+        <></>
       )}
 
       <Modal
