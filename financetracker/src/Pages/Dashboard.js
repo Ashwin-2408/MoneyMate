@@ -454,7 +454,7 @@ function Dashboard() {
       )}
       {showicon ? (
         <div className="p-4 w-full">
-          <Space style={{ marginBottom: 16 }}>
+          <Space style={{ marginBottom: 16 }} direction="horizontal" wrap>
             <Button
               onClick={() => handleSort("amount")}
               icon={<DollarOutlined />}
