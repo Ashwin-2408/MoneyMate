@@ -374,7 +374,7 @@ function Dashboard() {
             alt="Expense Icon"
             className="w-full h-[125px]"
           />
-          <p className="text-xl m-2">₹{expense}</p>
+          <p className="text-xl m-2">₹:{expense}</p>
           <button
             className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3"
             onClick={() => openModal("expense")}
