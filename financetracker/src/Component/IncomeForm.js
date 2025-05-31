@@ -56,7 +56,7 @@ function IncomeForm() {
     <div>
       <form>
         <Input placeholder="Title" state={title} setState={settitle}></Input>
-        <Input placeholder="Amount" state={amount} setState={setamount}></Input>
+        <Input placeholder="Amount" type="number"state={amount} setState={setamount}></Input>
         <select
           id="tag"
           value={tag}

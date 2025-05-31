@@ -53,7 +53,7 @@ function ExpenseForm() {
     <div>
       <form>
         <Input placeholder="Title" state={title} setState={settitle}></Input>
-        <Input placeholder="Amount" state={amount} setState={setamount}></Input>
+        <Input placeholder="Amount" state={amount} type="number" setState={setamount}></Input>
         <select
           id="tag"
           value={tag}

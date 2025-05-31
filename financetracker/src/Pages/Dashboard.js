@@ -103,7 +103,12 @@ function Dashboard() {
       key: "type",
     },
     {
-      title: "Amount",
+      title: "Tag",
+      dataIndex: "Tag",
+      key: "tag",
+    },
+    {
+      title: "Amount(in Rs)",
       dataIndex: "Amount",
       key: "amount",
     },
@@ -170,9 +175,9 @@ function Dashboard() {
     const unsubscribe = onSnapshot(
       transactionRef,
       (snapshot) => {
-        const transactionsArray = snapshot.docs.map((doc) => {
+        const transactionsArray = snapshot.docs.map((doc,index) => {
           const { type, Amount, Date, Tag, Title } = doc.data();
-          return { id: doc.id, type, Amount, Tag, Title, Date };
+          return {key:index+1, type, Amount, Tag, Title, Date };
         });
         setTransactions(transactionsArray);
         const expenses = transactionsArray.filter(
@@ -519,7 +524,7 @@ function Dashboard() {
         <div className="p-4 w-full">
           <Table
             columns={columns}
-            dataSource={sampleTableData}
+            dataSource={Transactions}
             pagination={{ pageSize: 5 }}
             scroll={{ x: "100%" }}
           />
