@@ -8,7 +8,15 @@ import ExpenseIcon from "../assets/Expense.svg";
 import PieIcon from "../assets/pie.svg";
 import TransactionIcon from "../assets/Transaction.svg";
 import { motion } from "framer-motion";
-import { Table } from "antd";
+
+import { Table, Button, Space } from "antd";
+import {
+  DollarOutlined,
+  CalendarOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+  StopOutlined,
+} from "@ant-design/icons";
 import Footer from "../Component/Footer";
 import IncomeForm from "../Component/IncomeForm";
 import ExpenseForm from "../Component/ExpenseForm";
@@ -33,64 +41,27 @@ function Dashboard() {
   const [modalType, setModalType] = useState("");
   const [showexpense, setshowexpense] = useState(false);
   const [linechartdata, setlinechartdata] = useState([]);
-  const [income,setincome]=useState()
-  const [expense,setexpense]=useState()
-  const [balance,setbalance]=useState()
+  const [income, setincome] = useState();
+  const [expense, setexpense] = useState();
+  const [balance, setbalance] = useState();
   const [Transactions, setTransactions] = useState([]);
   const [expensesByTag, setExpensesByTag] = useState([]);
   const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
-  const sampleTableData = [
-    {
-      key: "1",
-      Title: "Salary",
-      type: "Income",
-      Amount: 50000,
-      Date: "2025-05-01",
-    },
-    {
-      key: "2",
-      Title: "Freelancing",
-      type: "Income",
-      Amount: 12000,
-      Date: "2025-05-10",
-    },
-    {
-      key: "3",
-      Title: "Groceries",
-      type: "Expense",
-      Amount: 4500,
-      Date: "2025-05-12",
-    },
-    {
-      key: "4",
-      Title: "Electricity Bill",
-      type: "Expense",
-      Amount: 1800,
-      Date: "2025-05-15",
-    },
-    {
-      key: "5",
-      Title: "Movie Night",
-      type: "Expense",
-      Amount: 700,
-      Date: "2025-05-18",
-    },
-    {
-      key: "6",
-      Title: "Coffee",
-      type: "Expense",
-      Amount: 300,
-      Date: "2025-05-20",
-    },
-    {
-      key: "7",
-      Title: "Internet Bill",
-      type: "Expense",
-      Amount: 1000,
-      Date: "2025-05-22",
-    },
-  ];
+  const [sortedInfo, setSortedInfo] = useState({
+    columnKey: null,
+    order: null,
+  });
 
+  const handleSort = (columnKey) => {
+    const order =
+      sortedInfo.columnKey === columnKey && sortedInfo.order === "ascend"
+        ? "descend"
+        : "ascend";
+    setSortedInfo({ columnKey, order });
+  };
+  const handleClearSort = () => {
+    setSortedInfo({ columnKey: null, order: null });
+  };
   const columns = [
     {
       title: "Title",
@@ -101,6 +72,11 @@ function Dashboard() {
       title: "Type",
       dataIndex: "type",
       key: "type",
+      filters: [
+        { text: "Expense", value: "Expense" },
+        { text: "Income", value: "Income" },
+      ],
+      onFilter: (value, record) => record.type === value,
     },
     {
       title: "Tag",
@@ -111,56 +87,15 @@ function Dashboard() {
       title: "Amount(in Rs)",
       dataIndex: "Amount",
       key: "amount",
+      sorter: (a, b) => a.Amount - b.Amount,
+      sortOrder: sortedInfo.columnKey === "amount" ? sortedInfo.order : null,
     },
     {
       title: "Date",
       dataIndex: "Date",
       key: "Date",
-    },
-  ];
-
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
+      sorter: (a, b) => new Date(a.Date) - new Date(b.Date),
+      sortOrder: sortedInfo.columnKey === "date" ? sortedInfo.order : null,
     },
   ];
 
@@ -175,27 +110,26 @@ function Dashboard() {
     const unsubscribe = onSnapshot(
       transactionRef,
       (snapshot) => {
-        const transactionsArray = snapshot.docs.map((doc,index) => {
+        const transactionsArray = snapshot.docs.map((doc, index) => {
           const { type, Amount, Date, Tag, Title } = doc.data();
-          return {key:index+1, type, Amount, Tag, Title, Date };
+          return { key: index + 1, type, Amount, Tag, Title, Date };
         });
         setTransactions(transactionsArray);
         const expenses = transactionsArray.filter(
           (tx) => tx.type === "Expense"
         );
-        let income=0;
-        let expense=0;
-        for(const trans of transactionsArray){
-          if(trans.type=="Income"){
-            income+=Number(trans.Amount)
-          }
-          else{
-            expense+=Number(trans.Amount)
+        let income = 0;
+        let expense = 0;
+        for (const trans of transactionsArray) {
+          if (trans.type === "Income") {
+            income += Number(trans.Amount);
+          } else {
+            expense += Number(trans.Amount);
           }
         }
-        setincome(income)
-        setexpense(expense)
-        setbalance(income-expense)
+        setincome(income);
+        setexpense(expense);
+        setbalance(income - expense);
         console.log(transactionsArray);
 
         const expenseByTagObj = expenses.reduce((acc, curr) => {
@@ -207,7 +141,6 @@ function Dashboard() {
 
         const linechartobj = transactionsArray.reduce((acc, curr) => {
           const month = dayjs(curr.Date).format("MMM");
-          const Amount = Number(curr.Amount) || 0;
 
           if (!acc[month]) {
             acc[month] = {
@@ -217,7 +150,7 @@ function Dashboard() {
               Balance: 0,
             };
           }
-          if (curr.type == "Income") {
+          if (curr.type === "Income") {
             acc[month].Income += curr.Amount;
             acc[month].Balance += curr.Amount;
           } else {
@@ -255,7 +188,7 @@ function Dashboard() {
           );
         });
         setlinechartdata(completeData);
-       
+
         console.log(linechartArray);
 
         const expenseByTagArray = Object.entries(expenseByTagObj).map(
@@ -396,8 +329,6 @@ function Dashboard() {
             </h1>
             <ResponsiveContainer width="100%" height={350}>
               <LineChart
-                width={500}
-                height={300}
                 data={linechartdata}
                 margin={{
                   top: 5,
@@ -419,6 +350,7 @@ function Dashboard() {
 
                 <YAxis
                   tickFormatter={(value) => `₹${value.toLocaleString()}`}
+                  domain={["dataMin - 1000", "dataMax + 1000"]}
                 />
 
                 <Tooltip />
@@ -522,6 +454,35 @@ function Dashboard() {
       )}
       {showicon ? (
         <div className="p-4 w-full">
+          <Space style={{ marginBottom: 16 }}>
+            <Button
+              onClick={() => handleSort("amount")}
+              icon={<DollarOutlined />}
+            >
+              Sort by Amount{" "}
+              {sortedInfo.columnKey === "amount" &&
+                (sortedInfo.order === "ascend" ? (
+                  <ArrowUpOutlined />
+                ) : (
+                  <ArrowDownOutlined />
+                ))}
+            </Button>
+            <Button
+              onClick={() => handleSort("date")}
+              icon={<CalendarOutlined />}
+            >
+              Sort by Date{" "}
+              {sortedInfo.columnKey === "date" &&
+                (sortedInfo.order === "ascend" ? (
+                  <ArrowUpOutlined />
+                ) : (
+                  <ArrowDownOutlined />
+                ))}
+            </Button>
+            <Button onClick={handleClearSort} icon={<StopOutlined />}>
+              No Sort
+            </Button>
+          </Space>
           <Table
             columns={columns}
             dataSource={Transactions}
