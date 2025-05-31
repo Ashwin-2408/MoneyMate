@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.25.3",
     "chart.js": "^4.4.9",
+    "dayjs": "^1.11.13",
     "firebase": "^11.8.1",
     "framer-motion": "^12.15.0",
     "react": "^19.1.0",

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import Header from "../Component/Header";
 import { Card, Modal } from "antd";
 import IncomeIcon from "../assets/Income.svg";
@@ -31,6 +32,7 @@ function Dashboard() {
   const [showicon, setshowicon] = useState(false);
   const [modalType, setModalType] = useState("");
   const [showexpense, setshowexpense] = useState(false);
+  const [linechartdata, setlinechartdata] = useState([]);
   const [Transactions, setTransactions] = useState([]);
   const [expensesByTag, setExpensesByTag] = useState([]);
   const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
@@ -182,6 +184,59 @@ function Dashboard() {
           return acc;
         }, {});
 
+        const linechartobj = transactionsArray.reduce((acc, curr) => {
+          const month = dayjs(curr.Date).format("MMM");
+          const Amount = Number(curr.Amount) || 0;
+
+          if (!acc[month]) {
+            acc[month] = {
+              Month: month,
+              Expense: 0,
+              Income: 0,
+              Balance: 0,
+            };
+          }
+          if (curr.type == "Income") {
+            acc[month].Income += curr.Amount;
+            acc[month].Balance += curr.Amount;
+          } else {
+            acc[month].Expense += curr.Amount;
+            acc[month].Balance -= curr.Amount;
+          }
+          return acc;
+        }, {});
+        const linechartArray = Object.values(linechartobj);
+        const monthOrder = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        linechartArray.sort(
+          (a, b) => monthOrder.indexOf(a.Month) - monthOrder.indexOf(b.Month)
+        );
+        const completeData = monthOrder.map((month) => {
+          return (
+            linechartArray.find((entry) => entry.Month === month) || {
+              Month: month,
+              Income: 0,
+              Expense: 0,
+              Balance: 0,
+            }
+          );
+        });
+        setlinechartdata(completeData);
+       
+        console.log(linechartArray);
+
         const expenseByTagArray = Object.entries(expenseByTagObj).map(
           ([type, value]) => ({
             type,
@@ -322,7 +377,7 @@ function Dashboard() {
               <LineChart
                 width={500}
                 height={300}
-                data={data}
+                data={linechartdata}
                 margin={{
                   top: 5,
                   right: 30,
@@ -330,18 +385,37 @@ function Dashboard() {
                   bottom: 5,
                 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
+                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+
+                <XAxis
+                  dataKey="Month"
+                  label={{
+                    value: "Month",
+                    position: "insideBottomRight",
+                    offset: -10,
+                  }}
+                />
+
+                <YAxis
+                  tickFormatter={(value) => `₹${value.toLocaleString()}`}
+                />
+
                 <Tooltip />
                 <Legend />
                 <Line
                   type="monotone"
-                  dataKey="pv"
+                  dataKey="Balance"
+                  stroke="#ff7300"
+                  strokeWidth={2}
+                />
+
+                <Line
+                  type="monotone"
+                  dataKey="Expense"
                   stroke="#8884d8"
                   activeDot={{ r: 8 }}
                 />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+                <Line type="monotone" dataKey="Income" stroke="#82ca9d" />
               </LineChart>
             </ResponsiveContainer>
           </div>
