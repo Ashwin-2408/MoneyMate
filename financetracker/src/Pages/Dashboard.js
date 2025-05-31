@@ -33,6 +33,9 @@ function Dashboard() {
   const [modalType, setModalType] = useState("");
   const [showexpense, setshowexpense] = useState(false);
   const [linechartdata, setlinechartdata] = useState([]);
+  const [income,setincome]=useState()
+  const [expense,setexpense]=useState()
+  const [balance,setbalance]=useState()
   const [Transactions, setTransactions] = useState([]);
   const [expensesByTag, setExpensesByTag] = useState([]);
   const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
@@ -175,6 +178,19 @@ function Dashboard() {
         const expenses = transactionsArray.filter(
           (tx) => tx.type === "Expense"
         );
+        let income=0;
+        let expense=0;
+        for(const trans of transactionsArray){
+          if(trans.type=="Income"){
+            income+=Number(trans.Amount)
+          }
+          else{
+            expense+=Number(trans.Amount)
+          }
+        }
+        setincome(income)
+        setexpense(expense)
+        setbalance(income-expense)
         console.log(transactionsArray);
 
         const expenseByTagObj = expenses.reduce((acc, curr) => {
@@ -316,7 +332,7 @@ function Dashboard() {
             alt="Balance Icon"
             className="w-full h-[125px]"
           />
-          <p className="text-xl m-2">₹</p>
+          <p className="text-xl m-2">₹:{balance}</p>
           <button className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3">
             Reset Balance
           </button>
@@ -333,7 +349,7 @@ function Dashboard() {
             alt="Income Icon"
             className="w-full h-[125px]"
           />
-          <p className="text-xl m-2">₹</p>
+          <p className="text-xl m-2">₹:{income}</p>
           <button
             className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3"
             onClick={() => openModal("income")}
@@ -353,7 +369,7 @@ function Dashboard() {
             alt="Expense Icon"
             className="w-full h-[125px]"
           />
-          <p className="text-xl m-2">₹</p>
+          <p className="text-xl m-2">₹{expense}</p>
           <button
             className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3"
             onClick={() => openModal("expense")}
