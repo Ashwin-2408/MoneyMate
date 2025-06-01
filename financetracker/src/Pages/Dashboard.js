@@ -8,6 +8,7 @@ import ExpenseIcon from "../assets/Expense.svg";
 import PieIcon from "../assets/pie.svg";
 import TransactionIcon from "../assets/Transaction.svg";
 import { motion } from "framer-motion";
+import { CSVLink } from "react-csv";
 
 import { Table, Button, Space } from "antd";
 import {
@@ -481,6 +482,11 @@ function Dashboard() {
             </Button>
             <Button onClick={handleClearSort} icon={<StopOutlined />}>
               No Sort
+            </Button>
+            <Button>
+              <CSVLink data={Transactions} filename={"transactions.csv"}>
+                Export Data
+              </CSVLink>
             </Button>
           </Space>
           <Table
