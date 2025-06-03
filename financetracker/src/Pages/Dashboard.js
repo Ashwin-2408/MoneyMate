@@ -21,6 +21,7 @@ import {
 import Footer from "../Component/Footer";
 import IncomeForm from "../Component/IncomeForm";
 import ExpenseForm from "../Component/ExpenseForm";
+import ResetForm from "../Component/ResetForm";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import { collection } from "firebase/firestore";
@@ -34,6 +35,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
+
 
 function Dashboard() {
   const [user] = useAuthState(auth);
@@ -250,6 +252,8 @@ function Dashboard() {
         return <IncomeForm />;
       case "expense":
         return <ExpenseForm />;
+      case "reset":
+        return <ResetForm/>;
       default:
         return null;
     }
@@ -272,7 +276,7 @@ function Dashboard() {
             className="w-full h-[125px]"
           />
           <p className="text-xl m-2">₹:{balance}</p>
-          <button className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3">
+          <button onClick={()=>openModal("reset")} className="flex justify-center items-center w-full text-lg rounded-lg text-white bg-[#ff7bac] shadow-md mt-5 h-10 px-3">
             Reset Balance
           </button>
         </Card>
@@ -502,8 +506,8 @@ function Dashboard() {
 
       <Modal
         title={
-          <span style={{ color: "#ff7bac" }}>
-            {modalType === "income" ? "Add Income" : "Add Expense"}
+          <span >
+            {modalType === "income" ? "Add Income" : (modalType==="expense" ? "Add Expense" : "Reset Balance")}
           </span>
         }
         open={isModalOpen}

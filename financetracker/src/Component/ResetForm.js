@@ -1,0 +1,38 @@
+import React, { useState } from "react";
+import Input from "./Input";
+
+function ResetForm() {
+  const [confirm, setconfirm] = useState("");
+  return (
+    <div className="flex flex-col p-4 shadow-md">
+      <div className=" flex flex-col space-y-4 mb-4">
+        <h1 className="text-xl">
+          Are you sure you want to reset your{" "}
+          <span className="text-[#ae292f]">Balance.</span>
+        </h1>
+        <p className="text-sm text-white bg-[#ae292f] rounded-md p-2">
+          Warning:This will cause all your transactions to be deleted.
+        </p>
+      </div>
+      <hr className="m-2"></hr>
+
+      <div className="flex flex-col space-y-2">
+        <p>
+          Enter<span className="font-bold">"Reset my Balance"</span> to continue
+        </p>
+        <Input
+          state={confirm}
+          setState={setconfirm}
+          placeholder="Enter your confirmation"
+        ></Input>
+        <div className="flex justify-end items-center">
+          <button className="flex items-center justify-center h-[40px] w-[100px] p-3 rounded-md shadow-sm bg-[#ae292f] text-white border border-solid">
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ResetForm;
